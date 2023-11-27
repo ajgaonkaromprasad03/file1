@@ -397,49 +397,87 @@ plt.show()
 
 Q.1
 
+# Creating a data frame with details of 5 employees
+employee_data <- data.frame(
+  Employee_ID = c(1, 2, 3, 4, 5),
+  Name = c("John", "Emma", "Michael", "Sophia", "William"),
+  Age = c(30, 28, 35, 26, 32),
+  Department = c("HR", "Finance", "IT", "Marketing", "Operations"),
+  Salary = c(50000, 60000, 70000, 55000, 65000)
+)
 
-Fibonacci <- numeric(10)
-Fibonacci[1] <- Fibonacci[2] <- 1 
-for (i in 3:10) Fibonacci[i] <- Fibonacci[i - 2] + Fibonacci[i - 1]
-print("First 10 Fibonacci numbers:")
-print(Fibonacci)
+# Displaying the summary of the data frame
+summary(employee_data)
+
 
 Q.2
 
-import pandas as pd
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 
-# Load the dataset
-data = pd.read_csv('C:\\Users\\siddhii\\.spyder-py3\\CC GENERAL.csv')
+# Load the breast cancer dataset
+data = load_breast_cancer()
+X = data.data
+y = data.target
 
-# Fill missing values with mean of the respective columns
-data.fillna(data.mean(), inplace=True)
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Select relevant features for clustering
-X = data.iloc[:, 1:].values  # Exclude the 'CUST_ID' column for clustering
+# Build an SVM model
+svm_model = SVC(kernel='linear', random_state=42)
+svm_model.fit(X_train, y_train)
 
-# Standardize the data
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+# Make predictions on the test set
+y_pred = svm_model.predict(X_test)
 
-# Apply K-means algorithm
-kmeans = KMeans(n_clusters=5, init='k-means++', random_state=42)
-kmeans.fit(X_scaled)
+# Calculate accuracy, precision, and recall
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
 
-# Add cluster labels to the original dataset
-data['Cluster'] = kmeans.labels_
+# Display evaluation metrics
+print(f'Accuracy: {accuracy:.4f}')
+print(f'Precision: {precision:.4f}')
+print(f'Recall: {recall:.4f}')
 
-# Print the count of customers in each cluster
-print(data['Cluster'].value_counts())
+                            OR
 
-# Visualization (considering only 2 dimensions for plotting)
-plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=kmeans.labels_, cmap='viridis', marker='.')
-plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=300, c='red', label='Centroids')
-plt.title('K-means Clustering')
-plt.legend()
-plt.show()
+#Import scikit-learn dataset library
+from sklearn import datasets
+#Load dataset
+cancer = datasets.load_breast_cancer()
+# print the names of the 13 features
+print("Features: ", cancer.feature_names)
+# print the label type of cancer('malignant' 'benign')
+print("Labels: ", cancer.target_names)
+# print data(feature)shape
+cancer.data.shape 
+# print the cancer data features (top 5 records)
+print(cancer.data[0:5])
+# print the cancer labels (0:malignant, 1:benign)
+print(cancer.target) 
+# Import train_test_split function
+from sklearn.model_selection import train_test_split
+# Split dataset into training set and test set
+X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target,
+test_size=0.3,random_state=109) # 70% training and 30% test
+#Import svm model
+from sklearn import svm
+
+#Create a svm Classifier
+clf = svm.SVC(kernel='linear') # Linear Kernel
+#Train the model using the training sets
+clf.fit(X_train, y_train)
+#Predict the response for test dataset
+y_pred = clf.predict(X_test)
+#Import scikit-learn metrics module for accuracy calculation
+from sklearn import metrics
+# Model Accuracy: how often is the classifier correct?
+print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+
+
 
 #slip10
 
